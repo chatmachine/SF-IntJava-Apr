@@ -7,6 +7,10 @@ interface StudentCriterion {
   boolean test(Student s);
 }
 
+interface Silly {
+  boolean daft(Student s);
+}
+
 //class SmartnessCriterion implements StudentCriterion {
 //  @Override
 //  public boolean test(Student s) {
@@ -22,6 +26,9 @@ interface StudentCriterion {
 //}
 //
 public final class School {
+  public static StudentCriterion inverse(StudentCriterion crit) {
+    return s -> !crit.test(s);
+  }
 
   public static void showAll(List<Student> ls) {
     for (Student s : ls) {
@@ -92,8 +99,24 @@ public final class School {
     showAll(getEnthusiastic(school, 1));
 
     System.out.println("Using behavior parameter");
-    showAll(getByCriterion(school, new Student.SmartnessCriterion()));
+    showAll(getByCriterion(school, Student.getSmartnessCriterion(2.6F)));
     showAll(getByCriterion(school, Student.getEnthusiasmCriterion()));
+    showAll(getByCriterion(school, s -> s.getCourses().size() > 3));
+
+    StudentCriterion x = s -> s.getCourses().size() > 3;
+//    ((Silly)(s -> s.getCourses().size() > 3)).test(school.get(0)) ;
+//    ((StudentCriterion)(s -> s.getCourses().size() > 3)).test(school.get(0)) ;
+
+    System.out.println("--------------------------------");
+    StudentCriterion smart = Student.getSmartnessCriterion(3F);
+    System.out.println("Smart: ");
+    showAll(getByCriterion(school, smart));
+    StudentCriterion notSmart = inverse(smart);
+    System.out.println("Not Smart: ");
+    showAll(getByCriterion(school, notSmart));
+
 
   }
+
+
 }
