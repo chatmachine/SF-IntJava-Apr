@@ -30,6 +30,14 @@ public final class School {
     return s -> !crit.test(s);
   }
 
+  public static StudentCriterion and(StudentCriterion c1, StudentCriterion c2) {
+    return s -> c1.test(s) && c2.test(s);
+  }
+
+  public static StudentCriterion or(StudentCriterion c1, StudentCriterion c2) {
+    return s -> c1.test(s) || c2.test(s);
+  }
+
   public static void showAll(List<Student> ls) {
     for (Student s : ls) {
       System.out.println("> " + s);
@@ -88,8 +96,11 @@ public final class School {
 //
   public static void main(String[] args) {
     List<Student> school = List.of(
-        Student.ofNameGpaCourses("Fred", 2.2F, "Math", "Physics"),
+        Student.ofNameGpaCourses("Fred", 2.2F, "Math", "Physics", "Politics", "History of Art"),
         Student.ofNameGpaCourses("Jim", 2.7F, "Math"),
+        Student.ofNameGpaCourses("Tony", 2.3F, "Math", "Art", "Engineering"),
+        Student.ofNameGpaCourses("Alice", 3.5F, "Math"),
+        Student.ofNameGpaCourses("Sarah", 3.7F, "Math", "Philosophy", "German Literature"),
         Student.ofNameGpaCourses("Sheila", 3.8F, "Math", "Physics", "Astrophysics", "Quantum Mechanics")
     );
     showAll(school);
@@ -115,7 +126,15 @@ public final class School {
     System.out.println("Not Smart: ");
     showAll(getByCriterion(school, notSmart));
 
-
+    System.out.println("--------------------------------");
+    StudentCriterion enthusiastic = Student.getEnthusiasmCriterion();
+    System.out.println("Enthusiastic: ");
+    showAll(getByCriterion(school, enthusiastic));
+    StudentCriterion notEnthusiastic = inverse(enthusiastic);
+    System.out.println("Not Enthusiastic: ");
+    showAll(getByCriterion(school, notEnthusiastic));
+    System.out.println("Enthusiastic and not smart");
+    showAll(getByCriterion(school, and(enthusiastic, notSmart)));
   }
 
 
