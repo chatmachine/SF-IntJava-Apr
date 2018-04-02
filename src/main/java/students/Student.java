@@ -41,4 +41,45 @@ public final class Student {
         ", courses=" + courses +
         '}';
   }
+
+  static class SmartnessCriterion implements StudentCriterion {
+    @Override
+    public boolean test(Student s) {
+      return s.getGpa() > 3.0F;
+    }
+  }
+
+  private static final StudentCriterion enthusiasmCriterion =
+      (Student s) -> { return s.getCourses().size() > 3; };
+
+//  private static final StudentCriterion enthusiasmCriterion = /*new StudentCriterion() {*/
+////    @Override
+//    /*public boolean test*/ (Student s) -> {
+//      return s.getCourses().size() > 3;
+//    }
+//  /*}*/;
+//
+//  private static final StudentCriterion enthusiasmCriterion = new /*EnthusiasmCriterion();
+//
+//  private static class EnthusiasmCriterion implements */ StudentCriterion() {
+//    @Override
+//    public boolean test(Student s) {
+//      return s.getCourses().size() > 3;
+//    }
+//  };
+
+//  private static final StudentCriterion enthusiasmCriterion = new EnthusiasmCriterion();
+//
+//  private static class EnthusiasmCriterion implements StudentCriterion {
+//    @Override
+//    public boolean test(Student s) {
+//      return s.getCourses().size() > 3;
+//    }
+//  }
+//
+  public static StudentCriterion getEnthusiasmCriterion() {
+    return enthusiasmCriterion;
+  }
+
+
 }
