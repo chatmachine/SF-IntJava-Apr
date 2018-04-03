@@ -13,16 +13,25 @@ public final class SuperIterable<E> implements Iterable<E> {
     this.self = self;
   }
 
+  public <F> SuperIterable<F> flatMap(Function<E, SuperIterable<F>> op) {
+    ArrayList<F> rv = new ArrayList<>();
+    self.forEach(x -> op.apply(x).forEach(y -> rv.add(y)));
+    return new SuperIterable<>(rv);
+  }
+
   public <F> SuperIterable<F> map(Function<E, F> op) {
     ArrayList<F> rv = new ArrayList<>();
     // pass every item in "self" through op.apply
     // populate rv with results...
+    self.forEach(x -> rv.add(op.apply(x)));
     return new SuperIterable<>(rv);
   }
 
   public SuperIterable<E> filter(Predicate<E> test) {
     ArrayList<E> rv = new ArrayList<>();
-    self.forEach(i -> {if (test.test(i)) rv.add(i);});
+    self.forEach(i -> {
+      if (test.test(i)) rv.add(i);
+    });
     return new SuperIterable<>(rv);
   }
 
@@ -42,11 +51,13 @@ public final class SuperIterable<E> implements Iterable<E> {
     System.out.println("--------------------------------");
     sis
         // turn all the names, into upper case...
+        .map(s -> s.toUpperCase())
         .forEach(s -> System.out.println("> " + s));
 
     System.out.println("--------------------------------");
     sis
         // turn all the names into their lengths...
+        .map(s -> s.length())
         .forEach(s -> System.out.println("> " + s));
   }
 }
