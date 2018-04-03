@@ -34,5 +34,51 @@ public final class SuperSchool {
         .flatMap(s -> s.getCourses().stream())
         .forEach(s -> System.out.println("> " + s));
 
+
+    // Lab solutions:
+    System.out.println("1)");
+    schoolList.stream()
+        .forEach(s -> System.out.println(s));
+
+    System.out.println("2)");
+    schoolList.stream()
+        .filter(s -> s.getGpa() > 3)
+        .forEach(s -> System.out.println(s));
+
+    System.out.println("3)");
+    schoolList.stream()
+        .filter(s -> s.getGpa() > 3)
+        .map(s -> s.getName())
+        .forEach(s -> System.out.println(s));
+
+    System.out.println("4)");
+    schoolList.stream()
+        .filter(s -> s.getGpa() > 3)
+        .map(s -> s.getName() + " has grade " + s.getGpa())
+        .forEach(s -> System.out.println(s));
+
+    System.out.println("5)");
+    schoolList.stream()
+        .flatMap(s -> s.getCourses().stream())
+        .forEach(s -> System.out.println(s));
+
+    System.out.println("6)");
+    schoolList.stream()
+        .flatMap(s -> s.getCourses().stream())
+        .distinct()
+        .forEach(s -> System.out.println(s));
+
+    System.out.println("7)");
+    schoolList.stream()
+        .flatMap(s -> s.getCourses().stream())
+        .distinct()
+        .sorted()
+        .forEach(s -> System.out.println(s));
+
+    System.out.println("8)");
+    schoolList.stream()
+        .flatMap(s -> s.getCourses().stream().map(c -> s.getName() + " takes " + c))
+        .forEach(s -> System.out.println(s));
+
   }
 }

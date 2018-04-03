@@ -13,13 +13,13 @@ public final class SuperIterable<E> implements Iterable<E> {
     this.self = self;
   }
 
-  public <F> SuperIterable<F> flatMap(Function<E, SuperIterable<F>> op) {
+  public <F> SuperIterable<F> flatMap(Function<? super E, SuperIterable<F>> op) {
     ArrayList<F> rv = new ArrayList<>();
     self.forEach(x -> op.apply(x).forEach(y -> rv.add(y)));
     return new SuperIterable<>(rv);
   }
 
-  public <F> SuperIterable<F> map(Function<E, F> op) {
+  public <F> SuperIterable<F> map(Function<? super E, F> op) {
     ArrayList<F> rv = new ArrayList<>();
     // pass every item in "self" through op.apply
     // populate rv with results...
@@ -27,7 +27,7 @@ public final class SuperIterable<E> implements Iterable<E> {
     return new SuperIterable<>(rv);
   }
 
-  public SuperIterable<E> filter(Predicate<E> test) {
+  public SuperIterable<E> filter(Predicate<? super E> test) {
     ArrayList<E> rv = new ArrayList<>();
     self.forEach(i -> {
       if (test.test(i)) rv.add(i);
