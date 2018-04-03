@@ -3,21 +3,6 @@ package studentscleaned.students;
 import java.util.ArrayList;
 import java.util.List;
 
-interface Criterion<E> {
-  boolean test(E s);
-  static <E> Criterion<E> inverse(Criterion<E> crit) {
-    return s -> !crit.test(s);
-  }
-
-  static <E> Criterion<E> and(Criterion<E> c1, Criterion<E> c2) {
-    return s -> c1.test(s) && c2.test(s);
-  }
-
-  static <E> Criterion<E> or(Criterion<E> c1, Criterion<E> c2) {
-    return s -> c1.test(s) || c2.test(s);
-  }
-}
-
 public final class School {
 
   public static <E> void showAll(List<E> ls) {
@@ -51,7 +36,8 @@ public final class School {
     Criterion<Student> smart = Student.getSmartnessCriterion(3F);
     System.out.println("Smart: ");
     showAll(getByCriterion(school, smart));
-    Criterion<Student> notSmart = Criterion.inverse(smart);
+//    Criterion<Student> notSmart = Criterion.negate(smart);
+    Criterion<Student> notSmart = smart.negate();
     System.out.println("Not Smart: ");
     showAll(getByCriterion(school, notSmart));
 
@@ -59,11 +45,11 @@ public final class School {
     Criterion<Student> enthusiastic = Student.getEnthusiasmCriterion();
     System.out.println("Enthusiastic: ");
     showAll(getByCriterion(school, enthusiastic));
-    Criterion<Student> notEnthusiastic = Criterion.inverse(enthusiastic);
+    Criterion<Student> notEnthusiastic = enthusiastic.negate();
     System.out.println("Not Enthusiastic: ");
     showAll(getByCriterion(school, notEnthusiastic));
     System.out.println("Enthusiastic and not smart");
-    showAll(getByCriterion(school, Criterion.and(enthusiastic, notSmart)));
+    showAll(getByCriterion(school, enthusiastic.and(smart.negate())));
 
     System.out.println("--------------------------------");
     List<String> ls = List.of("Fred", "Jim", "Sheila");
