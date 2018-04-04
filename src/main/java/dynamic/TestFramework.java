@@ -1,6 +1,7 @@
 package dynamic;
 
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
@@ -26,5 +27,19 @@ public final class TestFramework {
         m.invoke(obj);
       }
     }
+
+    System.out.println("Object before 'injections' is " + obj);
+
+    Field[] fields = cl.getDeclaredFields();
+    for (Field f : fields) {
+      System.out.println("Found field " + f);
+      SetMe annot = f.getAnnotation(SetMe.class);
+      if (annot != null) {
+        String toInject = prop.getProperty(annot.value(), "No value specified");
+        f.setAccessible(true);
+        f.set(obj, toInject);
+      }
+    }
+    System.out.println("Object after'injections' is " + obj);
   }
 }

@@ -4,7 +4,12 @@ package dynamic;
 //@RunMe
 public final class UnitUnderTest {
 //  @RunMe
+  @SetMe("red")
   private String text;
+  @SetMe
+  private String otherValue;
+  @SetMe
+  private String moreText;
 
   @RunMe("Albert")
   public void doStuff() {
@@ -23,5 +28,14 @@ public final class UnitUnderTest {
   @RunMe
   public void doOtherStuff() {
     System.out.println("UnitUnderTest.doOtherStuff!");
+  }
+
+  @Override
+  public String toString() {
+    return "UnitUnderTest{" +
+        "text='" + text + '\'' +
+        ", otherValue='" + otherValue + '\'' +
+        ", moreText='" + moreText + '\'' +
+        '}';
   }
 }
