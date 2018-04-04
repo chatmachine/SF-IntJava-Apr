@@ -8,7 +8,7 @@ public final class UnitUnderTest {
   private String text;
   @SetMe
   private String otherValue;
-  @SetMe
+  @SetMe("blue")
   private String moreText;
 
   @RunMe("Albert")
